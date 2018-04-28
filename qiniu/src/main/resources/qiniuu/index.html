@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<base href="<%=basePath%>">
+
+	<title>My JSP 'index.jsp' starting page</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+
+</head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+
+
+<script type="text/javascript" src="jsJustUpload/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="jsJustUpload/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="jsJustUpload/jquery-ui.css">
+
+<title>七牛云存储 | 上传凭证</title>
+
+
+</head>
+
+<body>
+<form action="">
+	<ul>
+		<li>
+			token:<input id="token" name="token" class="ipt" value="123">
+		</li>
+		<li>
+			key:<input id="key" name="key" class="ipt" value="22.jpg">
+		</li>
+		<li>
+			照片:<input id="file" name="file" class="ipt" type="file">
+		</li>
+		<li>
+			<input id="btn_upload" type="button" value="提交" onclick="test();">
+		</li>
+	</ul>
+</form>
+<div id="dialog" title="上传成功"></div>
+</body>
+
+<script type="text/javascript">
+    var Qiniu_UploadUrl = "http://"+window.location.host+"/QiniuFileController/getToken";
+    var Qiniu_encodeUrl = "http://"+window.location.host+"/QiniuFileController/encodeVideo";
+    function getToken() {
+        htmlobj = $.ajax({
+            url: Qiniu_UploadUrl,
+            type: 'POST',
+            async: false
+        });
+        var json = JSON.parse(htmlobj.responseText).result;
+        $("#token").val(json);
+    }
+
+    function encode(fileName) {
+        htmlobj = $.ajax({
+            data: {
+                fileName: fileName
+            },
+            url: Qiniu_encodeUrl,
+            type: 'POST',
+            async: false
+        });
+        var json = JSON.parse(htmlobj.responseText).result;
+        $("#token").val(json);
+    }
+    //改函数要求浏览器必须要支持html5
+    function jsJustUpload(f, token, key) {
+        var Qiniu_UploadUrl = "http://up.qiniu.com";
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', Qiniu_UploadUrl, true);
+        var formData = new FormData();
+        if (key !== null && key !== undefined) {
+            formData.append('key', key);
+        }
+        formData.append('token', token);
+        formData.append('file', f);
+        xhr.onreadystatechange = function (response) {
+            if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                encode($("#key").val());
+                var blkRet = JSON.parse(xhr.responseText);
+                $("#dialog").html("复制连接直接访问_:http://oolktgssa.bkt.clouddn.com/" + blkRet.key+"?imageMogr2/quality/70").dialog();
+            } else if (xhr.status != 200 && xhr.responseText) {
+                $("#dialog").html("服务传输异常").dialog();
+            }
+        };
+        xhr.send(formData);
+    }
+
+    getToken();
+    function test() {
+        var token = $("#token").val();
+        var key = $("#key").val();
+        var f = $("#file")[0].files[0];
+//        Qiniu_upload(f, token, key);
+        jsJustUpload(f, token, key);
+    }
+
+</script>
+</html>

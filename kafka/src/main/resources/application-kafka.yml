@@ -1,0 +1,78 @@
+spring:
+  kafka:
+    bootstrap-servers: 172.23.195.109:9091
+    listener:
+      concurrency: 3
+    producer:
+      batch-size: 1000
+    consumer:
+      group-id: testGroup222
+    template:
+      default-topic: aac_bill
+    topic1: aac_bill
+    topic2: aac_event
+    topic3: aac_stats
+
+
+
+
+
+#spring:
+#  kafka:
+##    bootstrapServers: 172.23.195.109:9092,172.23.195.113:9092,172.23.195.96:9092
+#    bootstrapServers: 172.23.195.109:9091
+##    bootstrapServers: 172.23.12.171:9092,172.23.12.172:9092,172.23.12.176:9092
+#    groupId: testgroup # 指定默认消费者group id
+#    topic: aac_stats # 指定默认topic id
+
+#spring:
+#  kafka:
+#    consumer:
+#      group-id: foo
+#      auto-offset-reset: earliest
+
+#spring:
+#  kafka:
+#    producer:
+#      retries: 0
+#      batch-size: 16384
+#      buffer-memory: 33554432
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      bootstrap-servers: 192.168.0.63:9092
+#    consumer:
+#      bootstrap-servers: 192.168.0.63:9092
+#      group-id: foo
+#      auto-offset-reset: earliest
+#      enable-auto-commit: true
+#      auto-commit-interval: 100
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+#spring:
+#  kafka:
+#    broker: 192.168.0.63:9092
+#    zookeeper: 192.168.0.63:2181
+#    topic: topic1
+#    consumer:
+#      group-id: myGroup
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+#kafka
+# 指定kafka 代理地址，可以多个
+#spring:
+#  kafka:
+#    bootstrap-servers: 192.168.0.63:9092
+#    consumer:
+#      group-id: myGroup # 指定默认消费者group id
+#  template:
+#    default-topic: topic1 # 指定默认topic id
+#  listener:
+#    concurrency: 3 # 指定listener 容器中的线程数，用于提高并发量
+#  producer:
+#    batch-size: 1000 # 每次批量发送消息的数量

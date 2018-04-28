@@ -1,0 +1,32 @@
+#flyway:
+#  baselineOnMigrate: false
+spring:
+  datasource:
+    #db1
+      url: jdbc:mysql://172.18.35.51:3306/winby
+      username: root
+      password: root
+#      #db2
+      url2: jdbc:mysql://172.18.35.51:3306/winby
+      username2: root
+      password2: root
+#      db-pool-setting
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      minIdle: 10
+      maxActive: 20
+      initialSize: 5
+      timeBetweenEvictionRunsMillis: 3000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 'ZTM' FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+
+mybatis:
+    mapperLocations: classpath*:com/example/demo/dao/persistence/*.xml
+    typeAliasesPackage: com.example.demo.dao
+flyway:
+  enabled: false
+
+

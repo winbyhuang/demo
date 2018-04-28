@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <!--<link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>-->
+
+</head>
+<body>
+<div>
+    <ul>
+        <li>
+            {this.props.name1}:<input id="name1" type="text" value={this.props.name}/>
+            {this.props.name2}:<input id="name2" type="text" value={this.props.name}/>
+        </li>
+        <li>
+            {this.props.name3}:<input id="name3" type="text" value={this.props.name}/>
+        </li>
+    </ul>
+    <ul>
+        {this.props.name4}:<input id="name4" type="text" value={this.props.name}/>
+    </ul>
+</div>
+<div id="example"></div>
+<div id="ccc"></div>
+<button onclick="ss()">123</button>
+
+<script src="../static/assets/react/react.js"></script>
+<script src="../static/assets/react/react-dom.js"></script>
+<script src="../static/assets/react/browser.min.js"></script>
+<script type="text/babel">
+    class HelloMessage extends React.Component {
+        render() {
+            return (
+                    <div>
+                        <ul>
+                            <li>
+                                {this.props.name1}:<input id="name1" type="text" value={this.props.name}/>
+                                {this.props.name2}:<input id="name2" type="text" value={this.props.name}/>
+                            </li>
+                            <li>
+                                {this.props.name3}:<input id="name3" type="text" value={this.props.name}/>
+                            </li>
+                        </ul>
+                        <ul>
+                            {this.props.name4}:<input id="name4" type="text" value={this.props.name}/>
+                        </ul>
+                    </div>
+            );
+        }
+    };
+    ReactDOM.render(<HelloMessage name1="111" name2="222" name3="333" name4="333"/>,document.getElementById('ccc'));
+</script>
+<!--<script src="../static/js/page.js" type="text/babel"></script>-->
+
+<script>
+    var ss = function () {
+        document.getElementById('name1').value="1234a";
+    }
+</script>
+
+
+
+</body>
+</html>
+
+
+

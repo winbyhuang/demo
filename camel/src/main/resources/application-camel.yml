@@ -1,0 +1,3 @@
+ftp:
+  synchronization:
+    server: ftp://poprftp@172.23.21.75/test?password=password&delay=5000&preMove=success&move=done

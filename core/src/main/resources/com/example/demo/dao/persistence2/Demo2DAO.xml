@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.persistence2.Demo2DAO">
+
+    <!--**************************************新增************************************** -->
+    <insert id="insert" parameterType="com.example.demo.domain.DemoDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_demo` (
+        id,demo,
+        isDeleted,creator,createDate
+        ) VALUES (
+        #{id},#{demo},
+        0,#{creator},now()
+        )
+    </insert>
+
+    <!--**************************************删除************************************** -->
+    <update id="delete" parameterType="com.example.demo.domain.DemoDO">
+        UPDATE `t_demo` SET isDeleted = 1,modifyDate = now() WHERE id = #{id}
+    </update>
+
+    <!--**************************************修改************************************** -->
+    <update id="update" parameterType="com.example.demo.domain.DemoDO">
+        UPDATE `t_demo` SET
+        <if test="level != null">level = #{level},</if>
+        <if test="name != null and name != ''">name = #{name},</if>
+
+        <if test="isDeleted != null">isDeleted = #{isDeleted},</if>
+        <if test="modifier != null">modifier = #{modifier},</if>
+        modifyDate = now() WHERE id = #{id} and isDeleted=0
+    </update>
+
+    <!--**************************************ID查询************************************** -->
+    <select id="selectById" resultType="com.example.demo.domain.DemoDO">
+        SELECT * FROM `t_demo` WHERE id = #{id} AND isDeleted = 0
+    </select>
+
+    <!--**************************************条件查询************************************** -->
+    <select id="select" resultType="com.example.demo.domain.DemoDO">
+        SELECT * FROM `t_demo` WHERE isDeleted=0
+        <if test="level != null">and level = #{level}</if>
+        <if test="name != null and name != ''">and name = #{name}</if>
+        ORDER BY createDate DESC
+        <if test="pageStartNum != null and pageSize != null">
+            LIMIT #{pageStartNum},#{pageSize}
+        </if>
+    </select>
+
+    <!--**************************************条数查询************************************** -->
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM `t_demo` WHERE isDeleted = 0
+        <if test="creator != null">and creator = #{creator}</if>
+        <if test="startDate != null and endDate != null">and (createDate Between #{startDate} And #{endDate})</if>
+    </select>
+
+</mapper>

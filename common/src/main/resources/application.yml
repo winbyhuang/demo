@@ -1,0 +1,42 @@
+logging:
+  config: classpath:log4j2.xml
+
+spring:
+  profiles:
+   active: dev,mysql,thymeleaf,redis,mongodb,kafka
+#   active: dev,mysql,thymeleaf,redis,mongodb,kafka,dubboProvider
+#   active: pro,mysql,thymeleaf,redis,mongodb,kafka,dubboConsumer
+---
+#开发环境配置
+server:
+  port: 8888
+  session-timeout: 30
+  context-path: /
+
+spring:
+  profiles: dev
+---
+#生产环境配置
+server:
+  port: 8081
+  session-timeout: 30
+  context-path: /
+spring:
+  profiles: pro
+---
+  #dubbo生产者环境配置
+  server:
+    port: 8001
+    session-timeout: 30
+    context-path: /
+  spring:
+    profiles: provider
+---
+  #dubbo消费者环境配置
+  server:
+    port: 8002
+    session-timeout: 30
+    context-path: /
+  spring:
+    profiles: concumer
+

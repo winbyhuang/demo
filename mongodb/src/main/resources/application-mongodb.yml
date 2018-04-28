@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+#      uri: mongodb://192.168.0.63:27017/winby # Mongo database URI. When set, host and port are ignored.
+      database: winby # Database name.
+      host: 192.168.0.63 # Mongo server host.
+      port: 27017 # Mongo server port.
+#      username:  # Login user of the mongo server.
+#      password:  # Login password of the mongo server.
+#      authentication-database: # Authentication database name.
+#      field-naming-strategy:  # Fully qualified name of the FieldNamingStrategy to use.
+#      grid-fs-database:  # GridFS database name.
+#      repositories:
+#        enabled: true # Enable Mongo repositories.

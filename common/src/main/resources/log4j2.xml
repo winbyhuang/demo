@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn-->
+<!-- 在运行时，可以动态修改配置文件，不用重启服务，在固定时长更新一次配置文件。monitorInterval设置更新配置文件时长， 单位为seconds ， min senconds >= 5secondes -->
+<configuration status="warn" monitorInterval="30">
+
+    <Properties>
+        <Property name="log.path">/home/admin/logs/demo</Property>
+        <!--<Property name="log.path">D:</Property>-->
+        <Property name="log.level">info</Property>
+    </Properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="[%d{HH:mm:ss:SSS}]  [%p] - %l - %m%n"/>
+        </console>
+
+        <RollingRandomAccessFile name="InfoFile" fileName="${log.path}/info.log" filePattern="${log.path}/backup/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <TimeBasedTriggeringPolicy  interval="1"  modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy  fileIndex="max" max="7">
+                <!-- 删除指定目录下60天之前的日志-->
+                <Delete basePath="${log.path}/backup/" maxDepth="2">
+                    <IfFileName glob="*/info-*.log.gz" />
+                    <IfLastModified age="60d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="ErrorFile" fileName="${log.path}/error.log" filePattern="${log.path}/backup/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="ERROR"/>
+                <!--<ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+            </Filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <TimeBasedTriggeringPolicy  interval="1"  modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy  fileIndex="max" max="7">
+                <!-- 删除指定目录下60天之前的日志-->
+                <Delete basePath="${log.path}/backup/" maxDepth="2">
+                    <IfFileName glob="*/error-*.log.gz" />
+                    <IfLastModified age="60d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!--<RollingFile name="RollingFileWarn" fileName="${sys:user.home}/logs/hpaasvc/warn.log"-->
+        <!--filePattern="${sys:user.home}/logs/hpaasvc/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">-->
+        <!--<Filters>-->
+        <!--<ThresholdFilter level="WARN"/>-->
+        <!--<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+        <!--</Filters>-->
+        <!--<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>-->
+        <!--<Policies>-->
+        <!--<TimeBasedTriggeringPolicy/>-->
+        <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+        <!--</Policies>-->
+        <!--</RollingFile>-->
+
+        <!--<RollingFile name="RollingFileError" fileName="${sys:user.home}/logs/hpaasvc/error.log"-->
+        <!--filePattern="${sys:user.home}/logs/hpaasvc/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">-->
+        <!--<ThresholdFilter level="ERROR"/>-->
+        <!--<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>-->
+        <!--<Policies>-->
+        <!--<TimeBasedTriggeringPolicy/>-->
+        <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+        <!--</Policies>-->
+        <!--</RollingFile>-->
+
+        <!--<Async name="Async">-->
+            <!--<AppenderRef ref="InfoFile"/>-->
+        <!--</Async>-->
+    </appenders>
+
+    <loggers>
+        <!--过滤掉spring和hibernate的一些无用的debug信息-->
+        <!--<logger name="org.springframework" level="INFO">-->
+        <!--</logger>-->
+        <!--<logger name="org.apache.ibatis" level="INFO">-->
+        <!--</logger>-->
+        <!--<Logger name="RollingFileInfo" level="trace" additivity="true">-->
+        <!--<AppenderRef ref="RollingFileInfo"/>-->
+        <!--</Logger>-->
+        <root level="${log.level}">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="InfoFile"/>
+            <appender-ref ref="ErrorFile"/>
+            <!--<appender-ref ref="RollingFileWarn"/>-->
+            <!--<appender-ref ref="RollingFileError"/>-->
+        </root>
+    </loggers>
+
+</configuration>
